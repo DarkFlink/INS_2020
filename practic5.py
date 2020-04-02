@@ -115,11 +115,24 @@ H_r = regressor.fit(x_train, y_train,
                     verbose=1,
                     validation_data=(x_test, y_test))
 
+#  plots for regressor and autodecoder
 loss = H_r.history['loss']
 v_loss = H_r.history['val_loss']
 x = range(1, 50+1)
 
-# training data plot
+plt.plot(x, loss, 'b', label='train')
+plt.plot(x, v_loss, 'r', label='validation')
+plt.title('Loss')
+plt.ylabel('loss')
+plt.xlabel('epochs')
+plt.legend()
+plt.show()
+plt.clf()
+
+loss = H.history['loss']
+v_loss = H.history['val_loss']
+x = range(1, 40+1)
+
 plt.plot(x, loss, 'b', label='train')
 plt.plot(x, v_loss, 'r', label='validation')
 plt.title('Loss')
