@@ -2,7 +2,7 @@ import numpy as np
 
 import tensorflow.keras as keras
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import MaxPool1D, Dense, Flatten, Conv1D
+from tensorflow.keras.layers import MaxPool1D, Dense, Flatten, Conv2D, MaxPool2D
 from tensorflow.keras import optimizers
 from tensorflow.keras import initializers
 from tensorflow.keras import losses
@@ -23,13 +23,13 @@ class ClassifierFigs(keras.Model):
         self.num_classes = num_classes
 
         self.features = Sequential([
-            Conv1D(filters=64, kernel_size=5, strides=1, activation='relu', use_bias=True),
-            MaxPool1D(pool_size=2),
+            Conv2D(filters=64, kernel_size=5, strides=1, activation='relu', use_bias=True),
+            MaxPool2D(pool_size=2),
 
-            Conv1D(filters=64, kernel_size=5, strides=1, activation='relu', use_bias=True),
-            #Dropout(0.3),
-            Conv1D(filters=128, kernel_size=5, strides=1, activation='relu'),
-            MaxPool1D(pool_size=3),
+            Conv2D(filters=64, kernel_size=5, strides=1, activation='relu', use_bias=True),
+
+            Conv2D(filters=128, kernel_size=5, strides=1, activation='relu'),
+            MaxPool2D(pool_size=3),
         ])
 
         self.lin = Sequential([
@@ -67,6 +67,11 @@ y_train = to_categorical(y_train)
 
 x_train = np.asarray(x_train) / 255
 x_test = np.asarray(x_test) / 255
+
+x_train = np.asarray(x_train).reshape(400, 50, 50, 1)
+x_test = np.asarray(x_test).reshape(100, 50, 50, 1)
+
+print(x_test.shape)
 
 # model prepare
 classifier = ClassifierFigs()
